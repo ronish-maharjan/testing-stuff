@@ -1,0 +1,31 @@
+{
+  "name": "XFCE Optimized Codespace",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "runArgs": [
+    "--shm-size=1g",
+    "--init"
+  ],
+  "forwardPorts": [6080, 5901],
+  "portsAttributes": {
+    "6080": {
+      "label": "Desktop (noVNC)",
+      "onAutoForward": "openPreview"
+    },
+    "5901": {
+      "label": "Desktop (VNC)"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "GitHub.copilot"
+      ]
+    }
+  },
+  "postCreateCommand": "sudo useradd -m -s /bin/bash vscode && echo 'vscode:vscode' | chpasswd && sudo usermod -aG sudo vscode"
+}
