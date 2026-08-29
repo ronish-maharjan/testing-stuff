@@ -1,5 +1,5 @@
 {
-  "name": "XFCE Optimized Codespace",
+  "name": "XFCE Desktop",
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
@@ -22,10 +22,11 @@
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "ms-toolsai.jupyter",
         "GitHub.copilot"
       ]
     }
   },
-  "postCreateCommand": "sudo useradd -m -s /bin/bash vscode && echo 'vscode:vscode' | chpasswd && sudo usermod -aG sudo vscode"
+  "postCreateCommand": "sudo apt update && sudo apt install -y xfce4 xfce4-goodies dbus-x11 x11-xserver-utils tigervnc-standalone-server tigervnc-common novnc websockify firefox-esr",
+  "postStartCommand": "mkdir -p /home/vscode/.vnc && echo 'vscode' | vncpasswd -f > /home/vscode/.vnc/passwd && chmod 600 /home/vscode/.vnc/passwd && vncserver :1 -geometry 1366x768 -depth 24 -localhost no -SecurityTypes VncAuth -PasswordFile /home/vscode/.vnc/passwd && websockify --web=/usr/share/novnc 6080 localhost:5901 &",
+  "remoteUser": "vscode"
 }
